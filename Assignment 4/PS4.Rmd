@@ -1,0 +1,119 @@
+---
+title: "Problem Set 4"
+author: "Elizabeth Goodwin"
+date: "11/4/2021"
+documentclass: article
+output: 
+  pdf_document:
+    latex_engine: pdflatex
+    pandoc_args: "--pdf-engine-opt=--shell-escape"
+    extra_dependencies: ["flafter"]
+header-includes:
+   - \usepackage{graphicx}
+   - \usepackage{float}
+---
+
+# Multiple Choice 
+- 1. E
+- 2. D
+- 3. D
+- 4. C
+- 5. D
+- 6. B
+- 7. D
+- 8. C
+- 9. D
+- 10. C
+
+\newpage
+
+# Free Response Questions:
+
+## Question 1:
+## Use the IS-LM-PC model to illustrate and explain your answers to the following questions. Assume $\pi^{e}_{t}$ = $\pi_{t-1}$
+
+
+
+
+### In response to the global financial crisis, low tax revenues and high budget deficits drove many governments to pursue policies of fiscal austerity (e.g., the U.S. Budget Control Act of 2011). What are the short-run effects of a permanent decrease in government spending on the real interest rate, output, and the change in inflation?
+
+\includegraphics{1}
+
+Assuming output was previously at potential, the short run effects of this fiscal consolidation will result in the IS curve shifting to the left, resulting in falling output. This happens because a decrease in $G$ will pretty directly lower output, especially because of the multiplier effect also having it effect consumption. This moves output down the Phillips curve, resulting in disinflation. In the short run, the real rate remains the same. Investment and consumption decrease. The unemployment rate will also increase. 
+
+### Use the goods market equilibrium in the medium run to determine the change in the natural real interest rate following the decrease in government spending. Does it increase or decrease? What other component of output must change so that the economy can achieve potential output in the medium run?
+
+In the medium run, the natural real rate will shift down the new IS curve to a new equilibrium rate, lower than the original rate. Investment must change to achieve potential output in the medium run.
+
+### Given the permanent decrease in government spending, what is the likely response of the central bank if their primary goal is to stabilize inflation? What are the medium run effects of that policy
+
+The likely response from the central bank is to lower their interest rate target. This will stimulate investment to offset the shift in the IS curve and return output to potential. In inflation terms, this change in output will move $\Delta\pi$ upwards and return it to zero as output reaches potential.
+
+### Suppose the central bank only controls the short-term interest rate. If there is a severe recession combined with fiscal austerity, what situation could prevent the economy from returning to the potential output in the medium run?
+
+In this case, if interest rates approach the zero lower bound, traditional tools of monetary policy become much less effective. Effectively, lowering the interest rate significantly into the negatives means it actually has a lower return than simply holding cash, meaning it will simply create a liqudity trap. This creates a situation where the central bank is unable to increase output back to potential, leaving $\Delta\pi$ in the negatives. Without any way to push output back up to potential, this could continue and lower inflation. This pushes up real rates, lowering output and decreasing $\Delta\pi$ further. If this continues, it could a create a deflationary spiral where these effects feed on each other and creates a very dangerous situation.
+
+\newpage
+
+## Question 2
+### Suppose that the government takes action to improve the solvency of the financial system. If the government is successful and banks become more willing to lend---both to one another and to nonfinancial firms---what is likely to happen to the risk premium? Depict what happens in the IS-LM model
+
+\begin{figure}[H]
+\includegraphics{2}
+\centering
+\end{figure}
+
+Risk premiums are likely to decrease. The solvency of the financial system increasing lowers the risk of something such as a default occurring, meaning investments are less risky. Investor confidence would also increase. Both of these increase Investment and shift the IS curve to the right. This would increase output and a lower effective rate ($r+x$) paid by borrowers. This would also lead to a positive change in $\Delta\pi$ in the short term. This happens because $r+ x$ is the actual rate people actually consider when making spending decisions, and to keep spending $Y$ the same, the Federal reserve would have to engage in contractionary monetary policy, raising $r$ to offset the effective change as the premium decreases. This would eventually lead to $Y$ reaching it's potential and $\Delta\pi$ returning to 0.
+
+### Faced with the zero lower bound on i, suppose the Fed decides to purchase risky securities directly to provide liquidity to the financial system. What is likely to happen to the risk premium? Depict what happens in the IS-LM model.
+
+\includegraphics{3}
+
+Faced with a zero lower bound, the Fed can engage in unconventional monetary policy such as Quantitative Easing. This involves purchasing riskier and longer term securities off the market and putting them on the Fed's balance sheet. This, in effect, removes risk from the financial system (and additionally, helps bypass a liquidity trap by increasing liquidity in markets outside short-term bond markets). This comes from the direct risk of those securities, and more importantly the liquidity it provides helps prevent more financial institutions from collapsing and having a larger effect on the financial system as a whole. In the IS-LM model, this is essentially a cut on the interest rate borrowers experience ($r+x$), and would lead to an increase in $Y$. Demand for credit would increase as the effective rate decreases with less risk. In the short run, this would also help prevent a deflationary spiral from occurring, as it is one of the few tools left when conventional monetary policy cannot increase $Y$. The IS-LM Model above depicts something similar to 2008 happening, where a financial shock and risk premium increase move the IS curve to the right, and then unconventional policy eventually move us to a third IS curve and a lower real interest rate, creating $Y_2$. 
+
+### Suppose the model also had a long-term interest rate and a liquidity premium. What other way(s) could the Fed affect output?
+
+In a model with long term rates and a liquidity premium, the Fed could do a few things. If the premium for liquid assets increases, for example in the event of a financial crisis where there is little liquidity in the financial system, the Fed could inject liquidity into Financial markets by buying up assets and adding them to it's balance sheet. Specifically, they could buy longer term securities to effect their liquidity more directly. They could also look into increasing liquidity in other markets, such as corporate bonds, by adding them to their balance sheet. All of this is used to change the yield curve, or the difference in interest rate between long term (generally less liquid) and short term (very liquid) interest rates. These are all unconventional tools of monetary policy, but in a zlb situation they can be very useful. 
+
+## Question 3
+
+### How leveraged is this bank? What danger does that present?
+
+This bank is moderately leveraged. To be specific, it has a leverage ratio of 7.5, as shown below: 
+```{r}
+#Assets (In Thousands) (Cash, Reserves, Loans, Investments respectively)
+Assets = 500 + 700 + 6800 + 7000
+Assets
+#Liabilities (In Thousands) (Deposits, Short-Term Debt, And Long-Term Debt respectively)
+Liabilities = 7000 + 3000 + 3000
+Assets
+
+#Equity (Assets - Liabilities)
+Equity = (Assets - Liabilities)
+Equity 
+
+#Leverage Ratio
+Leverage_Ratio = Assets / Equity
+Leverage_Ratio
+
+#Capital Ratio 
+Capital_Ratio = Equity / Assets 
+Capital_Ratio
+```
+A leverage Ratio of 7.5 does present some danger of insolvency. If their investments go sour, they could become insolvent. In addition, if their on demand deposits suspect insolvency and come to get their money out of the bank, things could quickly spiral out of control, as they do not have all that much cash on hand to pay them. Many of their assets are illiquid investments, and take time to convert into more liquid assets such as cash. 
+
+### Suppose the bank’s customers want to withdraw $3 million worth of deposits due to rumors of an accounting scandal. Can the bank satisfy its obligations?
+
+Immediately, they cannot. They only 1.2M in cash/reserves, so they will not be able to immediately withdraw 3M. If they had time to sell off their illliquid assets, they may be able to, but that could cause other issues (such as triggering even more depositors to attempt to withdraw from worries of insolvency). There are a few other options available as well, such as asking for short term loans. 
+
+### What situation is the bank now facing? Assuming its loans and investments are transferable, what four options could it pursue?
+
+The bank has four options.
+
+- The bank could default and declare bankruptcy
+-   The bank could attempt to sell off its loans to other banks
+-   The bank could attempt to sell off its investments
+-   The bank could ask the Federal Reserve for an emergency loan 
+
+Realistically, options 2 and 3 would also result in bankruptcy, as a large bank having a fire sale of its asset signals to other investors that it is insolvent, and could lead to even more investors demanding their money.
+

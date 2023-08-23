@@ -1,0 +1,180 @@
+---
+title: 'Data Assignment #3'
+author: "Elizabeth Goodwin, Rosanne Yang"
+date: "11/15/2021"
+output: pdf_document
+indent: true
+header-includes:
+   - \usepackage{indentfirst}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library( data.table)
+library(zoo)
+library(ggplot2)
+library(tidyverse)
+library(ggprism)
+library(patchwork)
+library(gridExtra)
+library(grid)
+library(extrafont)
+library(kableExtra)
+
+```
+
+```{r include=FALSE}
+csv <- fread("gdp.csv", skip=0, header=FALSE, drop= c("Line"), strip.white = TRUE)
+
+#"myfile.csv",drop = "Approach")
+
+csv <- setDT(transpose(csv))
+csv <- janitor::row_to_names(csv, 2)
+x <- as.yearqtr(1947 + seq(0, 298)/4)
+
+#names(csv) = csv[1,]
+#csv <- csv[-1,]
+
+gdp <- as.data.frame(csv)
+gdp[c(1)] = x
+gdp = gdp[-c(2)]
+gdp <- gdp[c(1, 2, 3, 8, 17, 20, 23) ]
+gdp <- lapply(gdp ,as.numeric)
+names(gdp) = c("Year", "GDP", "PCE", "GPDI", "Exports", "Imports", "GCE")
+gdp <- as.data.frame(gdp)
+gdp["Net Exports"] <- gdp$Exports - gdp$Imports
+gdp <- gdp[-c(5:6)]
+gdp["PCE_Share"] = gdp$PCE / gdp$GDP * 100
+gdp["GPDI_Share"] = gdp$GPDI / gdp$GDP * 100
+gdp["NETEX_Share"] = gdp["Net Exports"] / gdp$GDP * 100
+gdp["GCE_Share"] = gdp["GCE"] / gdp$GDP * 100
+
+
+```
+
+```{r fig.align="center", fig.cap="Path of Coefficients", dpi=300, include=FALSE, out.width="75%"}
+
+a2 <- ggplot(data = gdp, aes(x = Year, y = GPDI_Share)) + labs(y="Share of Private Investment (%)", title="Gross Private Domestic Investment") + geom_point(color='#58508d', size = 0.5) + geom_line(color='#58508d') + theme(plot.title = element_text(size=10, hjust = 0.5))# + scale_color_brewer(palette="Pastel2")
+a1 <- ggplot(data = gdp, aes(x = Year, y = PCE_Share)) + labs(y="Share of PCE (%)", title="Personal consumption expenditures") + geom_point(color='#ff6361', size = 0.5) + geom_line(color='#ff6361') + theme(plot.title = element_text(size=10, hjust = 0.5)) #+ scale_color_brewer(palette="Pastel2")
+a3 <- ggplot(data = gdp, aes(x = Year, y = GCE_Share)) + labs(y="Share of GCE (%)", title="Government consumption expenditures & gross investment") + geom_point(color='#bc5090', size = 0.5) + geom_line(color='#bc5090') + theme(plot.title = element_text(size=10, hjust = 0.5))  #scale_color_brewer(palette="Pastel2")
+
+#+ scale_x_continuous(breaks = scales::pretty_breaks(n = 10))
+#a1 = a1 + temp
+#a2 = a2 + temp
+#a <- a1 + a2
+#a <- a + scale_color_brewer(palette="Pastel2")
+#a <- a + theme_prism(palette= "floral", base_size = 14) + scale_colour_prism(palette = "floral") 
+#a
+
+#grid.arrange(a1, a2, a3, nrow = 2, ncol=2,
+#  top = textGrob(
+#   "Share of GDP by Factor over time",
+#   gp = gpar(fontsize = 16),
+#   hjust = .5))
+
+#          labels = c("PCE", "Net Exports"), nrow = 2)
+
+
+```
+
+
+```{r include=FALSE}
+Factor <- c("Consumption", "Private Investment", "Government Spending")
+Mean_Share <- c(format(mean(gdp$PCE_Share),digits=4,nsmall = 0), format(mean(gdp$GPDI_Share),digits=4,nsmall = 0), format(mean(gdp$GCE_Share), digits=4, nsmall = 0))
+Mean_Shares <- data.frame(Factor, Mean_Share)
+```
+
+
+
+
+# Question 1 
+
+## (a)
+
+```{r echo=FALSE}
+  
+kbl(Mean_Shares,
+    booktabs = T, 
+    linesep = "",
+    col.names = c("Factor of GDP", "Mean Share (Percent)"), escape = FALSE,
+    caption = "Mean values of three factors of GDP") %>%
+  kable_styling(latex_options = c("striped", "hold_position"), font_size=10, full_width = F)
+```
+## (b)
+
+  Consumption seems to be increasing over time, as well as gross private investment. Government spending as a share of GDP seems to be falling significantly. There are many possible reasons for this, but for government spending specifically it could likely be due to military spending. Transfer payments are not included in government spending as a factor of GDP, so military spending specifically will have a large effect. With the end of the cold war, military spending decreased dramatically, which could account for a large portion of the fall in government investment. 
+
+  Consumption has changed, but not as much as many of the other variables. It went from around 60% of GDP to around 70%, and was a pretty steady increase over time. I'm not sure if this is more the result of changes in other factors of GDP or consumption increasing in general. Private investment has risen quite a lot, and I think this is most likely explained by the fall in government investment. With the fall in government investment, it left more room for private actors to invest. In addition, low interests rates from the Federal reserve could explain a decent amount of investment. Private investment also fell a lot during the financial crisis, which makes sense, as private actors were less willing to invest. 
+  
+```{r echo=FALSE, fig.align="center", fig.cap="Share of GDP by factor over time", fig.height=9.5, fig.width=7, warning=FALSE, dpi=300, out.width="100%"}
+grid.arrange(a1, a2, a3, nrow = 3, ncol=1)
+
+```
+
+\newpage
+# Question 2
+## (a)
+
+$$Y_t = C_t + I_t + G_t + NX_t$$
+
+Take Derivative
+
+$$dY_t = dC_t + dI_t + dG_t + dNX_t$$
+
+Divide both sides by $Y_{t-1}$
+
+$$ \frac{dY_t}{Y_{t-1}} = \frac{dC_t}{Y_{t-1}} + \frac{dI_t}{Y_{t-1}} + \frac{dG_t}{Y_{t-1}} + \frac{dNX_t}{Y_{t-1}} $$
+
+Multiply each term by $\frac{X_{t-1}}{X_{t-1}}$
+
+$$ \frac{dY_t}{Y_{t-1}} = \frac{dC_t}{Y_{t-1}} \cdot \frac{C_{t-1}}{C_{t-1}} + \frac{dI_t}{Y_{t-1}} \cdot \frac{I_{t-1}}{I_{t-1}} + \frac{dG_t}{Y_{t-1}} \cdot \frac{G_{t-1}}{G_{t-1}} + \frac{dNX_t}{Y_{t-1}} \cdot \frac{NX_{t-1}}{NX_{t-1}}$$
+
+Rearrange
+
+$$ \frac{dY_t}{Y_{t-1}} = \frac{C_{t-1}}{Y_{t-1}} \cdot \frac{dC_t}{C_{t-1}} + \frac{I_{t-1}}{Y_{t-1}} \cdot \frac{dI_{t}}{I_{t-1}} + \frac{G_{t-1}}{Y_{t-1}} \cdot \frac{dG_{t}}{G_{t-1}} + \frac{NX_{t-1}}{Y_{t-1}} \cdot \frac{dNX_{t}}{NX_{t-1}}$$
+
+
+$\frac{dY_1}{Y_{t-1}}$ is the growth rate between $t-1$ and $t$, so it is the share weighted sum, and can be replaced with $g$.
+
+$$ g_{Y,t} = \frac{C_{t-1}}{Y_{t-1}} g_{C,t} + \frac{I_{t-1}}{Y_{t-1}} g_{I,t} + \frac{G_{t-1}}{Y_{t-1}} g_{G,t} + \frac{NX_{t-1}}{Y_{t-1}} g_{NX,t}$$
+
+$\frac{X_{t-1}}{Y_{t-1}}$ is also equal to $s_{X,t-1}$ and is X's share of GDP at time $t-1$
+
+$$ g_{Y,t} =g_{C,t} s_{C,t-1}+ g_{I,t} s_{I,t-1}+ g_{G,t} s_{G,t-1} + g_{NX,t} s_{NX,t-1}$$
+
+
+## (b)
+```{r include=FALSE}
+gdp = gdp %>%
+  mutate(PCE_aqgr = 400 *((PCE / lag(PCE) - 1)),
+         GPDI_aqgr = 400 *((GPDI / lag(GPDI) - 1)),
+         GCE_aqgr = 400 *((GCE / lag(GCE) - 1)),
+         Consumption = PCE_aqgr * (lag(PCE_Share)/100),
+         Investment = GPDI_aqgr * (lag(GPDI_Share)/100),
+         Government = GCE_aqgr * (lag(GCE_Share)/100))
+
+
+```
+
+```{r include=FALSE}
+#dat <- gdp %>% gather(variable, value, -Species)
+longer_data <- gdp %>%
+  pivot_longer(14:16, names_to = "Factor", values_to = "Contribution")
+
+```
+
+```{r fig.align="center", fig.cap="Pfath of Coefficients", dpi=300, include=FALSE, out.width="75%"}
+cols <- c("#ff6361", "#bc5090", "#58508d")
+#b1 <- ggplot(data = gdp, aes(Year)) + labs(y="Share of Private Investment (%)", title="Gross Private Domestic Investment")  + geom_line(aes(y=PCE_contr),color='#ff6361') + geom_line(aes(y=GCE_contr), color='#bc5090') + geom_line(aes(y=GPDI_contr), color='#58508d') + theme(plot.title = element_text(size=10, hjust = 0.5)) +  scale_x_continuous(limits = c(2016.75, 2021.5))  + scale_color_brewer(palette="Pastel2")
+b1 <- ggplot(data = longer_data, aes(x = Year, y = Contribution, color=Factor)) + labs(y="Share of GDP Growth (%)")  + geom_line(size=.8) + geom_point() + theme(plot.title = element_text(size=10, hjust = 0.5)) +  scale_x_continuous(limits = c(2016.75, 2021.5))  + scale_color_manual(values=cols)
+b1 <- b1 + scale_x_continuous(limits = c(2016.75, 2021.5)) + theme(legend.position="bottom")
+
+
+```
+
+```{r echo=FALSE, fig.align="center", fig.cap="Share of GDP growth by factor over time", fig.height=6, fig.width=7, message=FALSE, warning=FALSE, dpi=300, out.width="100%"}
+b1
+```
+The Personal Consumption Expenditure is primarily keeping recent GDP growth rates positive. This is not surprising, as much of the GDP growth was held up by fiscal policy during the pandemic, with large amounts of government cash transfers propping up consumer consumption. Policies like the CARES and and the American Rescue Plan introduced money into the hands of consumers in an unprecedented way. The second most influential was Private Investment, which could be explained by the very dovish monetary policy of the federal reserve. 
+
+

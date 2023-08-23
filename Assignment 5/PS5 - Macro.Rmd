@@ -1,0 +1,259 @@
+---
+title: "ECON 304: Problem Set 5" 
+shorttitle: "Problem Set 5"
+subtitle: "Elizabeth Goodwin" 
+
+
+output: 
+  bookdown::pdf_document2:
+    keep_md: true
+    toc: false
+    number_sections: T
+fontsize: 10pt
+header-includes:
+   - \usepackage{indentfirst}
+   - \usepackage{setspace}
+   - \usepackage{amsmath}
+   - \singlespacing
+   - \usepackage{pgfplots}
+   - \pgfplotsset{compat=1.18}
+   - \usepackage{float}
+ 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multiple Choice
+
+\doublespacing
+
+1.  **C**
+2.  **E**
+3.  **B**
+4.  **B**
+5.  **A**
+6.  **E**
+7.  **E**
+8.  **A**
+9.  **B**
+10. **C**
+
+```{=tex}
+\pagebreak 
+\onehalfspacing
+```
+# Free Response
+
+## Do the following production functions exhibit increasing, constant, or decreasing returns to scale? 
+
+### $Y = F(K,N) = K^{1/2}N^{1/2}$
+  
+-  Constant returns of scale. Sum of the exponents is equal to one. 
+
+### $Y = F(K,N) = K + N$
+- Constant Returns to Scale, is linear
+  
+### $Y = F(K,N) = K^{1/3}N^{2/3} + \bar{A}$
+- The exponential terms alone have constant returns to scale, but doubling the economy would increase output more than just doubling K and N alone, since A would also be added, so slightly decreasing returns to scale. 
+  
+## Suppose that the production function is given by $Y = 0.5\sqrt{KN}$
+
+### Derive the steady state levels of output per worker and capital per worker in terms of the savings rate, $s$, and the depreciation rate, $\delta$ 
+
+\begin{align*}
+Y &=  0.5\sqrt{KN} \\
+Y &= \frac{\sqrt{KN}}{2} & I &= S + (T-G) \\
+\frac{Y}{N} &= \frac{\sqrt{K}\sqrt{N}}{2N} & 0 &= (T-G) \\
+\frac{Y}{N} &= \frac{\sqrt{K}\sqrt{N}}{2\sqrt{N}\sqrt{N}} & I &= S\\
+\frac{Y}{N} &= \frac{\sqrt{K}}{2\sqrt{N}} &S &= sY \\
+\frac{Y_t}{N} &= \frac{\sqrt{K_t}}{2\sqrt{N}} & I_t &= sY_t \\ 
+\end{align*}
+\begin{center}
+Capital Depreciates at rate $\delta$, leaving $(1-\delta)$ in tact at $t-1$
+\end{center}
+\begin{align*}
+K_{t+1} &= (1-\delta)K_t + I_t \\
+K_{t+1} &= (1-\delta)K_t + sY_t\\
+K_{t+1} &= K_t + \delta K_t+ sY_t \\
+K_{t+1} - K_t &= sY_t - \delta K_t\\
+\frac{K_{t+1}}{N} - \frac{K_{t}}{N} &= s\frac{Y_t}{N} - \delta \frac{K_t}{N}\\
+\end{align*}
+\begin{align*}
+\frac{Y_t}{N} &= \frac{\sqrt{K_t}}{2\sqrt{N}} & \frac{K_{t+1}}{N} - \frac{K_{t}}{N} &= 0 \text{ (In steady state)}  \\ 
+\frac{K_{t+1}}{N} - \frac{K_{t}}{N} &=  s\frac{\sqrt{K_t}}{2\sqrt{N}} - \delta \frac{K_t}{N} & s\frac{Y^*}{N} &= \delta \frac{K^*}{N} \\
+\frac{K_{t+1}}{N} - \frac{K_{t}}{N} &= 0 \text{ (In steady state)} & \frac{sY^*}{\delta N} &= \frac{K^*}{N}  \\
+ s\frac{\sqrt{K^*}}{2\sqrt{N}} &= \delta \frac{K^*}{N}  &\text{Take from } &\text{end of equation 1} \\
+ s^{2}\frac{K^*}{4N} &= \delta ^{2} (\frac{K^*}{N})^{2} & \frac{sY^*}{\delta N} = &\frac{K*}{N} =  \frac{s^2}{4\delta ^2} \\
+  \frac{s^{2}}{4} &= \delta ^{2} \frac{K^*}{N} &  \frac{sY^*}{\delta N} &=  \frac{s^2}{4\delta ^2} \\
+  \frac{K^*}{N} &= \frac{s^2}{4\delta ^2} & \frac{Y^*}{N} &= \frac{s}{4\delta}
+\end{align*}
+
+### Derive the equation for steady state consumption per worker in terms of $s$ and $\delta$
+\begin{equation}
+\begin{split}
+\frac{C^*}{N} &= \frac{Y^*}{N} - \delta\frac{K^*}{N} \\
+\frac{C^*}{N} &= \frac{s}{4\delta} - \delta\frac{s^2}{4\delta ^2} \\
+\frac{C^*}{N} &= \frac{s}{4\delta} - \frac{s^2}{4\delta} \\
+\frac{C^*}{N} &= \delta\frac{s(1-s)}{4\delta}
+\end{split}
+\end{equation}
+\endcenter
+
+## Suppose that two countries are exactly alike in every respect except that population grows at a faster rate in country A than in country B. Assume the savings rate, depreciation rate, and technology are constant in and equal across countries.
+
+### Which country will have the higher level of output per worker in the steady state? Illustrate graphically
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    axis lines = left,
+    xlabel = \(\text{Capital per Worker}\),
+    ylabel = {\(\text{Output}\)},
+    ticks=none,
+                 legend pos= outer north east]
+]
+\addplot [
+    domain=0:10, 
+    samples=100, 
+    color=red,
+]
+{2*x};
+\addlegendentry{\(\delta K \)}
+\addplot [
+    domain=0:10, 
+    samples=100, 
+    color=violet,
+]
+{3*x};
+\addlegendentry{\((\delta + n)K \)}
+%Here the blue parabola is defined
+\addplot [
+    domain=0:10, 
+    samples=100, 
+    color=blue,
+    ]
+    {5*sqrt(x)};
+\addlegendentry{\(i = s f(k)\)}
+\addplot [
+    domain=0:10, 
+    samples=100, 
+    color=green,
+    ]
+    {9*sqrt(x)};
+\addlegendentry{\(Y = \sqrt{k}\)}
+\draw [very thick,dotted] (2.77,\pgfkeysvalueof{/pgfplots/ymin}) -- (2.77,\pgfkeysvalueof{/pgfplots/ymax});
+\draw [very thick,dotted] (6.25,\pgfkeysvalueof{/pgfplots/ymin}) -- (6.25,\pgfkeysvalueof{/pgfplots/ymax});
+\node[label={45:{$K_a^{*}$}}] at (axis cs:2.77,0) {};
+\node[label={45:{$K_b^{*}$}}] at (axis cs:6.25,0) {};
+\end{axis}
+\end{tikzpicture}
+\caption{Effect of Population growth on steady state capital stock}
+\end{center}
+\end{figure}
+
+Country B would have a higher level of output per worker in steady state. Each country starts with the same amount of capital and output per worker, but the new arrivals share in the existing capital stock. This means that as new people arrive, the capital per worker decreases. If the rate of saving remains the same, this will lead to a less optimal savings rate for country A and less steady state output than country B. Essentially, the fact that the change in population is large means that in the short term the current capital stock is split between a larger denominator than when it was created, and on a per capita basis it mimics a faster rate of depreciation in the economy. If the savings rate increases, this can offset it, but as $s_a = s_b$, that does not happen. On a raw output basis, A will have more, since more people will allow more aggregate output, but not on a per capita basis. Of course, this is an oversimplified model that does not necessarily reflect the real life impacts of population growth. 
+
+### Which country will have the faster growth rate of output per worker in steady state?
+
+If in steady state, and not effected by other variables such as technological growth, both will have reached their maximum output and no longer be growing. 
+
+## Compute the discounted present value of the following income streams. Assume the nominal interest rate is constant and equals 3%.
+
+### $50,000, received 1 year from now
+```{r include=FALSE}
+fifyk1yr<- 50000/1.03
+times10<- (1.03)^(10)
+times10_final<- 50000/times10
+oneoveri<- 1/1.03
+oneminusoneoveri <- 1-oneoveri
+bruhidk<- oneoveri / oneminusoneoveri
+bruhidkben<- 100*bruhidk
+fifteen <- (1.05)^(15)
+fifteen1<- 40000/fifteen
+ten<- (1.10)^(15)
+ten1<- (1.05)^(15)
+oneoverpoint5 <- 1/1.05
+oneoverpointten <- 1/1.10
+
+```
+\begin{align*}
+DPV &= \$ 50,000 \cdot \frac{1}{1 + i_t} \\
+&= \$ 50,000 \cdot \frac{1}{1 + .03} \\
+&= \frac{\$ 50,000 }{1.03} \\
+&= `r format(round(fifyk1yr, 2), scientific = FALSE, big.mark=",")` 
+\end{align*}
+
+### $50,000, received 10 years from now
+
+\begin{align*}
+DPV &= \$ 50,000 \cdot \left(\frac{1}{1 + i_t}\right)^{n} \\
+&= \$ 50,000 \cdot \left(\frac{1}{1 + .03}\right)^{10} \\
+&= \$ 50,000 \cdot \frac{1^{10}}{(1 + .03)^{10}} \\
+&= \frac{\$ 50,000}{(1 + .03)^{10}} \\
+&= \frac{\$ 50,000}{`r format(round(times10, 3), scientific = FALSE)`} \\
+&= `r format(round(times10_final, 2), scientific = FALSE, big.mark=",")` \\
+\end{align*}
+
+### $100 every year, forever, starting immediately
+
+\begin{align*}
+DPV &= \$ 100 \cdot \left(\frac{1}{1+i}\right) \left(\frac{1}{1-(1/(1+i))}\right) \\
+&= \$ 100 \cdot \left(\frac{1}{1.03}\right) \left(\frac{1}{1-(1/(1.03))}\right) \\
+&= \$ 100 \cdot \left(`r format(round(oneoveri, 3), scientific = FALSE)`\right) \left(\frac{1}{1-(`r format(round(oneoveri, 3), scientific = FALSE)`))}\right) \\
+&= \$ 100 \cdot \frac{`r format(round(oneoveri, 3), scientific = FALSE)`}{`r format(round(oneminusoneoveri, 3), scientific = FALSE)`} \\
+&= \$ 100 \cdot `r format(round(bruhidk, 3), scientific = FALSE)` \\
+&= \$ `r format(round(bruhidkben, 2), scientific = FALSE, big.mark=",")`
+\end{align*}
+
+## Some parents start to save for their child’s college education. The child will begin college in 15 years. Current tuition, room, and board cost $10000 per year. Assume, unrealistically, for this problem, that these costs will remain constant for the next 20 years and interest rates are 5%. Also assume their child will finish college in four years. {#college}
+
+### How much would these parents need to set aside today to have the entire cost of their child’s college education set aside in 15 years?
++ They need to save a total of $40,000
++ Interests rates are compounding at 5%
+\begin{align*}
+P &= \$ 40,000 \cdot \frac{1}{\left(1+i\right)^n} \\
+&= \$ 40,000 \cdot \frac{1}{\left(1.05\right)^{15}} \\
+&= \frac{\$ 40,000}{\left(1.05\right)^{15}} \\
+&= \frac{\$ 40,000}{`r format(round(fifteen, 3), scientific = FALSE)`} \\
+&= \$ `r format(round(fifteen1, 2), scientific = FALSE, big.mark=",")` \\
+\end{align*}
++ They will need set aside $`r format(round(fifteen1, 2), big.mark=",", scientific = FALSE)`.
+
+### What if interest rates were 10% instead?
+\begin{align*}
+P &= \$ 40,000 \cdot \frac{1}{\left(1+i\right)^n} \\
+&= \$ 40,000 \cdot \frac{1}{\left(1.10\right)^{15}} \\
+&= \frac{\$ 40,000}{\left(1.05\right)^{15}} \\
+&= \frac{\$ 40,000}{`r format(round(ten, 3), scientific = FALSE)`} \\
+&= \$ `r format(round((40000/ten), 2),big.mark=",", scientific = FALSE)` \\
+\end{align*}
+
+### Calculate, instead, the constant amount they would need to save at the beginning of each year to have saved the entire cost of their child’s education in 15 years if interest rates were 5%.
+
+\begin{align*}
+\$ 40,000 &= P \cdot (1+i) \frac{(1+i)^{n}-1}{i} \\
+\$ 40,000 &= P \cdot (1.05) \frac{(1.05)^{15}-1}{.05} \\
+&= P \cdot (1.05) \frac{[`r format(round(ten1, 3), scientific = FALSE)`]-1}{.05} \\
+&= P \cdot (1.05) \frac{`r format(round((ten1-1), 3), scientific = FALSE)`}{.05} \\
+&= P \cdot (1.05) (`r format(round(((ten1-1)/.05), 3), scientific = FALSE)`) \\
+&= P \cdot (`r format(round((1.05*((ten1-1)/.05)), 3), scientific = FALSE)`) \\
+`r format(round((1.05*((ten1-1)/.05)), 3), scientific = FALSE)` P &= \$ 40,000 \\
+P &= \$ `r format(round((40000/(1.05*((ten1-1)/.05))), 2), big.mark=",", scientific = FALSE)` \\
+\end{align*}
+
+### What if interest rates were 10% instead?
+
+\begin{align*}
+\$ 40,000 &= P \cdot (1+i) \frac{(1+i)^{n}-1}{i} \\
+\$ 40,000 &= P \cdot (1.10) \frac{(1.10)^{15}-1}{.10} \\
+&= P \cdot (1.10) \frac{[`r format(round(ten, 3), scientific = FALSE)`]-1}{.10} \\
+&= P \cdot (1.10) \frac{`r format(round((ten-1), 3), scientific = FALSE)`}{.10} \\
+&= P \cdot (1.10) (`r format(round(((ten-1)/.1), 3), scientific = FALSE)`) \\
+&= P \cdot (`r format(round((1.1*((ten-1)/.1)), 3), scientific = FALSE)`) \\
+`r format(round((1.1*((ten-1)/.1)), 3), scientific = FALSE)` P &= \$ 40,000 \\
+P &= \$ `r format(round((40000/(1.1*((ten-1)/.1))), 2), big.mark=",", scientific = FALSE)` \\
+\end{align*}
+
+(Rounding in Question \@ref(college) is for display only, end results calculated with R code chunks behind the scenes)
